@@ -17,6 +17,7 @@ function App() {
       description: "Comer um xis",
     },
   ]);
+  let [active, setActive] = useState([...tasks]);
 
   const addTask = function (task) {
     let newTask = {
@@ -25,14 +26,23 @@ function App() {
     };
 
     setTask((tasks = [...tasks, newTask]));
-
+    setActive((active = [...tasks]));
     console.log(tasks);
-    console.log(task);
+  };
+
+  const deleteTask = function (id) {
+    setTask((tasks = tasks.filter((task) => task.id !== id)));
+  };
+  const deleteBtn = function (id) {
+    deleteTask(id);
+    setActive((active = [...tasks]));
+    console.log(tasks);
   };
   return (
     <div className="App">
+      <button onClick={() => console.log(active)}></button>
       <Header funcao={addTask} />
-      <Tasks taks={tasks} />
+      <Tasks tasks={tasks} deleteBtn={deleteBtn} />
     </div>
   );
 }

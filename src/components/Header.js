@@ -6,7 +6,7 @@ const Header = ({ funcao }) => {
   const [name, setName] = useState("");
   const handleSubmit = (event) => {
     event.preventDefault();
-    alert(`The name you entered was: ${name}`);
+
     funcao(name);
   };
   return (

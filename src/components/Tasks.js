@@ -1,10 +1,13 @@
 import React from "react";
 
-const Tasks = ({ taks }) => {
+const Tasks = ({ tasks, deleteBtn }) => {
   return (
     <>
-      {taks.map((task) => (
-        <h3 key={task.id}>{task.description}</h3>
+      {tasks.map((task) => (
+        <div key={task.id}>
+          <h3>{task.description}</h3>
+          <button onClick={() => deleteBtn(task.id)}>Delete</button>
+        </div>
       ))}
     </>
   );
