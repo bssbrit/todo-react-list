@@ -1,6 +1,7 @@
 import Header from "./components/Header";
 import { useState } from "react";
 import Tasks from "./components/Tasks";
+import StatusSelector from "./components/StatusSelector";
 function App() {
   let [tasks, setTask] = useState([
     {
@@ -18,7 +19,16 @@ function App() {
     },
   ]);
   let [active, setActive] = useState([...tasks]);
-
+  let [completed, setCompleted] = useState([
+    {
+      id: 4,
+      description: "Postar projeto no Linkedin",
+    },
+    {
+      id: 65,
+      description: "Treinar",
+    },
+  ]);
   const addTask = function (task) {
     let newTask = {
       id: tasks.length + 1,
@@ -38,11 +48,41 @@ function App() {
     setActive((active = [...tasks]));
     console.log(tasks);
   };
+
+  const getCompleted = function () {
+    console.log("hi");
+    setTask((tasks = [...completed]));
+  };
+
+  const getAll = function () {
+    setTask((tasks = [...completed, ...active]));
+  };
+
+  const getActive = function () {
+    console.log("active");
+    setTask((tasks = active));
+  };
+
+  const clearCompleted = function () {
+    setCompleted((completed = []));
+    console.log(completed);
+    setTask((tasks = active));
+  };
+  const changeStatus = function (task) {
+    console.log(task.Id);
+  };
   return (
     <div className="App">
       <button onClick={() => console.log(active)}></button>
       <Header funcao={addTask} />
-      <Tasks tasks={tasks} deleteBtn={deleteBtn} />
+      <Tasks changeStatus={changeStatus} tasks={tasks} deleteBtn={deleteBtn} />
+      <StatusSelector
+        tasks={tasks}
+        completedFunction={getCompleted}
+        allFunction={getAll}
+        activeFunction={getActive}
+        clearCompleted={clearCompleted}
+      />
     </div>
   );
 }
