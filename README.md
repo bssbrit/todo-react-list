@@ -2,7 +2,7 @@ Trabalho simples, se organizarmos completamos quase tudo hoje
 
 Cada task vai conter content
 
-App.js
+App.jssss
 
 variavel NAME sera usado como description do objeto TASK que ficara no array TASKS
 
