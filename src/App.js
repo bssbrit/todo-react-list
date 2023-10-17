@@ -1,88 +1,101 @@
-import Header from "./components/Header";
+import ThemeBtn from "./components/ThemeBtn";
 import { useState } from "react";
 import Tasks from "./components/Tasks";
-import StatusSelector from "./components/StatusSelector";
 function App() {
-  let [tasks, setTask] = useState([
+  let [tasks, setTasks] = useState([
     {
       id: 1,
-      description: "Andar de costas dando mortal",
+      description: "Complete report for work",
+      status: false,
     },
     {
       id: 2,
-      description:
-        "Jogar CS e se tornar pro, virar milionário e acabar com a fome mundial ",
+      description: "Buy groceries",
+      status: false,
     },
     {
       id: 3,
-      description: "Comer um xis",
+      description: "Go for a run",
+      status: false,
     },
-  ]);
-  let [active, setActive] = useState([...tasks]);
-  let [completed, setCompleted] = useState([
     {
       id: 4,
-      description: "Postar projeto no Linkedin",
+      description: "Walk the dog",
+      status: true,
     },
     {
-      id: 65,
-      description: "Treinar",
+      id: 5,
+      description: "Code a fucking lot",
+      status: true,
     },
   ]);
-  const addTask = function (task) {
-    let newTask = {
-      id: tasks.length + 1,
-      description: task,
-    };
-
-    setTask((tasks = [...tasks, newTask]));
-    setActive((active = [...tasks]));
-    console.log(tasks);
+  /* 
+  função render com 3 cenários baseados na variavel whichList
+  */
+  const removeList = function (id) {
+    const newList = tasks.filter((i) => i.id !== id);
+    setTasks((tasks = newList));
+  };
+  const render = function (task) {
+    console.log(task.description);
+    return (
+      <div className="task" key={task.id}>
+        <button
+          className="statusBtnStyle"
+          onClick={() => {
+            if (!task.status) {
+              task.status = true;
+            } else {
+              task.status = false;
+            }
+            console.log(
+              `Atividade ${task.description} teve o seu status mudado para ${task.status}`
+            );
+          }}
+        ></button>
+        <p>{task.description}</p>
+        <button onClick={() => removeList(task.id)} style={{ color: "red" }}>
+          {" "}
+          X
+        </button>
+      </div>
+    );
   };
 
-  const deleteTask = function (id) {
-    setTask((tasks = tasks.filter((task) => task.id !== id)));
-  };
-  const deleteBtn = function (id) {
-    deleteTask(id);
-    setActive((active = [...tasks]));
-    console.log(tasks);
-  };
-
-  const getCompleted = function () {
-    console.log("hi");
-    setTask((tasks = [...completed]));
-  };
-
-  const getAll = function () {
-    setTask((tasks = [...completed, ...active]));
-  };
-
-  const getActive = function () {
-    console.log("active");
-    setTask((tasks = active));
-  };
-
-  const clearCompleted = function () {
-    setCompleted((completed = []));
-    console.log(completed);
-    setTask((tasks = active));
-  };
-  const changeStatus = function (task) {
-    console.log(task.Id);
-  };
   return (
-    <div className="App">
-      <button onClick={() => console.log(active)}></button>
-      <Header funcao={addTask} />
-      <Tasks changeStatus={changeStatus} tasks={tasks} deleteBtn={deleteBtn} />
-      <StatusSelector
-        tasks={tasks}
-        completedFunction={getCompleted}
-        allFunction={getAll}
-        activeFunction={getActive}
-        clearCompleted={clearCompleted}
-      />
+    <div className="App ">
+      <div>
+        <div>
+          <h1>TODO</h1>
+          <ThemeBtn />
+        </div>
+        <div>New Task Input</div>
+      </div>
+
+      <div className="tasks">
+        <Tasks tasks={tasks} render={render} />
+      </div>
+      <div>
+        {/* 
+        <p> Número de items sobrando
+        <div>
+        All
+        Active
+        Completed
+        </div>
+        <p>Clear Completed
+
+        */}
+      </div>
+      <p>Drag and drop to reorder list</p>
+      {/*
+      
+
+
+
+
+
+      */}
     </div>
   );
 }
