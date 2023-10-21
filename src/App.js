@@ -1,6 +1,7 @@
 import ThemeBtn from "./components/ThemeBtn";
 import { useState } from "react";
 import Tasks from "./components/Tasks";
+import StatusSelector from "./components/StatusSelector";
 function App() {
   let [tasks, setTasks] = useState([
     {
@@ -29,32 +30,39 @@ function App() {
       status: true,
     },
   ]);
+  let [renderedTasks, setRendered] = useState(tasks);
   /* 
   função render com 3 cenários baseados na variavel whichList
   */
   const removeList = function (id) {
     const newList = tasks.filter((i) => i.id !== id);
-    setTasks((tasks = newList));
+    const newRendered = tasks.filter((i) => i.id !== id);
+    //setTasks((tasks = newList));
+    setTasks(newList);
+    setRendered(newRendered);
   };
-  const render = function (task) {
-    console.log(task.description);
+  const render = function (renderedTasks) {
+    console.log(renderedTasks.description);
     return (
-      <div className="task" key={task.id}>
+      <div className="renderedTasks" key={renderedTasks.id}>
         <button
           className="statusBtnStyle"
           onClick={() => {
-            if (!task.status) {
-              task.status = true;
+            if (!renderedTasks.status) {
+              renderedTasks.status = true;
             } else {
-              task.status = false;
+              renderedTasks.status = false;
             }
             console.log(
-              `Atividade ${task.description} teve o seu status mudado para ${task.status}`
+              `Atividade ${renderedTasks.description} teve o seu status mudado para ${renderedTasks.status}`
             );
           }}
         ></button>
-        <p>{task.description}</p>
-        <button onClick={() => removeList(task.id)} style={{ color: "red" }}>
+        <p>{renderedTasks.description}</p>
+        <button
+          onClick={() => removeList(renderedTasks.id)}
+          style={{ color: "red" }}
+        >
           {" "}
           X
         </button>
@@ -73,20 +81,14 @@ function App() {
       </div>
 
       <div className="tasks">
-        <Tasks tasks={tasks} render={render} />
+        <Tasks tasks={renderedTasks} render={render} />
       </div>
-      <div>
-        {/* 
-        <p> Número de items sobrando
-        <div>
-        All
-        Active
-        Completed
-        </div>
-        <p>Clear Completed
-
-        */}
-      </div>
+      <StatusSelector
+        tasks={tasks}
+        renderedTasks={renderedTasks}
+        setRendered={setRendered}
+        setTasks={setTasks}
+      />
       <p>Drag and drop to reorder list</p>
       {/*
       
